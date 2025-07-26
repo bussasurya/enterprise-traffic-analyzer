@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  producer:
+    build:
+      context: ./producer
+    container_name: traffic-producer
+    ports:
+      - "5000:5000"
+    volumes:
+      - shared-logs:/app/logs
+    restart: unless-stopped
+
+  processor:
+    build:
+      context: ./processor
+    container_name: log-processor
+    volumes:
+      - shared-logs:/app/logs
+    restart: unless-stopped
+    depends_on:
+      - producer
+
+volumes:
+  shared-logs:
+

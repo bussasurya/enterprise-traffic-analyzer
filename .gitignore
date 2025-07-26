@@ -1,0 +1,9 @@
+node_modules/
+__pycache__/
+*.pyc
+*.log
+.env
+dist/
+*.sqlite3
+.DS_Store
+shared-logs
