@@ -1,73 +1,88 @@
-# 🚦 Enterprise Traffic Analyzer (Dockerized)
+# 🚦 Enterprise Traffic Analyzer
 
-An enterprise-grade traffic monitoring system using **Docker**.  
-Simulates API traffic logs, processes them in real-time, and reports key metrics like errors, latency, and endpoints — using a shared volume between services.
-
-## 🔧 Stack
-
-- 🐍 Python + Flask (Traffic Producer)
-- 🟦 Node.js (Log Processor)
-- 🐳 Docker + Docker Compose
-- 📁 Shared Volume for inter-container logging
-
-## 📦 Architecture
-
-\`\`\`
-+--------------------+      Shared Volume     +--------------------+
-| Traffic Producer   |   ─────────────────▶   | Log Processor       |
-| (Python/Flask App) |                        | (Node.js)           |
-| Random API Traffic |                        | Stats, Alerts, Logs |
-+--------------------+                        +--------------------+
-\`\`\`
-
-## 📁 Folder Structure
-
-\`\`\`
-enterprise-traffic-analyzer/
-├── producer/
-│   └── app.py
-│   └── Dockerfile
-├── processor/
-│   └── index.js
-│   └── Dockerfile
-├── shared/                # Mounted log volume
-├── docker-compose.yml
-└── README.md
-\`\`\`
-
-## 🐳 Run Locally (No Cloud Needed!)
-
-\`\`\`bash
-# Build & run both containers
-docker compose up --build
-\`\`\`
-
-Then test it:
-
-\`\`\`bash
-curl http://localhost:5000/generate
-\`\`\`
-
-📊 Output will be visible from log-processor.
-
-## 💡 Features
-
-- Simulated API traffic with random:
-  - Endpoints (\`/users\`, \`/orders\`, etc.)
-  - Latency spikes
-  - Error injection
-- Real-time log file monitoring via shared volume
-- Summary stats: total reqs, error count, p90 latency
-
-## 🚀 Future Ideas
-
-- Save stats to SQLite
-- Expose processor metrics via Express API
-- Alerting system on high error rates
-- Integration with Grafana or Prometheus
+A self-contained **Dockerized monitoring system** that simulates API traffic and logs system behavior for real-time analysis—perfect for learning containerized microservices without external dependencies.
 
 ---
 
-Made with ❤️ by [Surya](https://github.com/your-github-username)
-EOF
+## 📦 Architecture
 
+                 +-----------------+           +-----------------+
+                 |  Traffic Producer  |  --->    |  Log Processor    |
+                 |   (Flask App)       |  Logs   |   (Node.js App)    |
+                 +-----------------+           +-----------------+
+                          |
+                          v
+                    [shared/logs]  (Docker volume)
+
+---
+
+## 🧰 Features
+
+- 🚀 **Synthetic Traffic Generation** (Flask)
+- 📈 **Real-Time Log Processing** (Node.js)
+- 📦 **Docker Compose** with shared volumes
+- 🐳 Fully containerized, no cloud or DB dependency
+
+---
+
+## 📁 Folder Structure
+
+enterprise-traffic-analyzer/
+├── producer/          # Flask API traffic generator  
+│   ├── app.py  
+│   └── Dockerfile  
+├── processor/         # Node.js log processor  
+│   ├── index.js  
+│   └── Dockerfile  
+├── shared/            # Shared volume (logs)  
+├── docker-compose.yml  
+├── .gitignore  
+└── README.md  
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repo
+
+    git clone https://github.com/bussasurya/enterprise-traffic-analyzer.git
+    cd enterprise-traffic-analyzer
+
+### 2. Run the stack
+
+    docker compose up --build
+
+### 3. Generate traffic
+
+Open a new terminal and run:
+
+    curl http://localhost:5000/generate
+
+You’ll see live logs and stats from the processor.
+
+---
+
+## 🛑 Stop the system
+
+    docker compose down
+
+---
+
+## 📌 Requirements
+
+- Docker
+- Docker Compose
+
+---
+
+## 🧠 Author
+
+**B. Surya**  
+Full-stack & DevOps enthusiast  
+GitHub: [@bussasurya](https://github.com/bussasurya)
+
+---
+
+## 📜 License
+
+MIT – Feel free to use, modify, and share.
